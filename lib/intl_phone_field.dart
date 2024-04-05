@@ -427,18 +427,33 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
 
         widget.onChanged?.call(phoneNumber);
       },
-      validator: widget.userValidator,
-      // ??
-      //     (value) {
-      //       if (value == null || !isNumeric(value) || value.isEmpty || value == "") return validatorMessage;
-      //       if (!widget.disableLengthCheck) {
-      //         return value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength
-      //             ? null
-      //             : widget.invalidNumberMessage;
-      //       }
+      validator: (String? value) {
+        final RegExp numberRegExp = RegExp(r'^[0-9]+$');
 
-      //       return validatorMessage;
-      //     },
+        if (value == null || value.isEmpty) {
+          return 'Phone number cannot be empty';
+        } else if (!numberRegExp.hasMatch(value)) {
+          return 'Phone number must contain only digits';
+        } else if (!widget.disableLengthCheck) {
+          return value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength
+              ? null
+              : widget.invalidNumberMessage;
+        }
+
+        return null; // Return null if the input is valid
+      },
+      //  widget.userValidator,
+      // ??
+      // (value) {
+      //   if (value == null || !isNumeric(value) || value.isEmpty || value == "") return validatorMessage;
+      //   if (!widget.disableLengthCheck) {
+      //     return value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength
+      //         ? null
+      //         : widget.invalidNumberMessage;
+      //   }
+
+      //   return validatorMessage;
+      // },
       maxLength: widget.disableLengthCheck ? null : _selectedCountry.maxLength,
       keyboardType: widget.keyboardType,
       inputFormatters: widget.inputFormatters,
