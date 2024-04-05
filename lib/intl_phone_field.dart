@@ -427,17 +427,18 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
 
         widget.onChanged?.call(phoneNumber);
       },
-      validator: widget.userValidator ??
-          (value) {
-            if (value == null || !isNumeric(value) || value.isEmpty || value == "") return validatorMessage;
-            if (!widget.disableLengthCheck) {
-              return value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength
-                  ? null
-                  : widget.invalidNumberMessage;
-            }
+      validator: widget.userValidator,
+      // ??
+      //     (value) {
+      //       if (value == null || !isNumeric(value) || value.isEmpty || value == "") return validatorMessage;
+      //       if (!widget.disableLengthCheck) {
+      //         return value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength
+      //             ? null
+      //             : widget.invalidNumberMessage;
+      //       }
 
-            return validatorMessage;
-          },
+      //       return validatorMessage;
+      //     },
       maxLength: widget.disableLengthCheck ? null : _selectedCountry.maxLength,
       keyboardType: widget.keyboardType,
       inputFormatters: widget.inputFormatters,
