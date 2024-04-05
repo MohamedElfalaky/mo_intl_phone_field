@@ -50,6 +50,7 @@ class IntlPhoneField extends StatefulWidget {
   /// If `disableLengthCheck` is not set to `true`, your validator returned value will be overwritten by the default validator.
   /// But, if `disableLengthCheck` is set to `true`, your validator will have to check phone number length itself.
   final FutureOr<String?> Function(PhoneNumber?)? validator;
+  final String? Function(String?)? userValidator;
 
   /// {@macro flutter.widgets.editableText.keyboardType}
   final TextInputType keyboardType;
@@ -269,6 +270,7 @@ class IntlPhoneField extends StatefulWidget {
     this.dropdownTextStyle,
     this.onSubmitted,
     this.validator,
+    this.userValidator,
     this.onChanged,
     this.countries,
     this.onCountryChanged,
@@ -307,7 +309,6 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
   late Country _selectedCountry;
   late List<Country> filteredCountries;
   late String number;
-
   String? validatorMessage;
 
   @override
@@ -426,16 +427,17 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
 
         widget.onChanged?.call(phoneNumber);
       },
-      validator: (value) {
-        if (value == null || !isNumeric(value) || value.isEmpty || value == "") return validatorMessage;
-        if (!widget.disableLengthCheck) {
-          return value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength
-              ? null
-              : widget.invalidNumberMessage;
-        }
+      validator: widget.userValidator ??
+          (value) {
+            if (value == null || !isNumeric(value) || value.isEmpty || value == "") return validatorMessage;
+            if (!widget.disableLengthCheck) {
+              return value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength
+                  ? null
+                  : widget.invalidNumberMessage;
+            }
 
-        return validatorMessage;
-      },
+            return validatorMessage;
+          },
       maxLength: widget.disableLengthCheck ? null : _selectedCountry.maxLength,
       keyboardType: widget.keyboardType,
       inputFormatters: widget.inputFormatters,
