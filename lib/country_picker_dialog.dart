@@ -124,6 +124,7 @@ class _CountryPickerDialogState extends State<CountryPickerDialog> {
                 children: [
                   for (int index = 0; index < _filteredCountries.length; index++)
                     Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         ListTile(
                           leading: kIsWeb
