@@ -249,6 +249,7 @@ class IntlPhoneField extends StatefulWidget {
 
   /// If null, default magnification configuration will be used.
   final TextMagnifierConfiguration? magnifierConfiguration;
+  final bool disableSearchField;
 
   const IntlPhoneField({
     Key? key,
@@ -298,6 +299,7 @@ class IntlPhoneField extends StatefulWidget {
     this.pickerDialogStyle,
     this.flagsButtonMargin = EdgeInsets.zero,
     this.magnifierConfiguration,
+    this.disableSearchField = false,
   }) : super(key: key);
 
   @override
@@ -363,6 +365,7 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
       useRootNavigator: false,
       builder: (context) => StatefulBuilder(
         builder: (ctx, setState) => CountryPickerDialog(
+          disableSearchField: widget.disableSearchField,
           languageCode: widget.languageCode.toLowerCase(),
           style: widget.pickerDialogStyle,
           filteredCountries: filteredCountries,
