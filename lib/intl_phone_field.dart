@@ -434,9 +434,9 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
         final RegExp numberRegExp = RegExp(r'^[0-9]+$');
 
         if (value == null || value.isEmpty) {
-          return 'Phone number cannot be empty';
+          return widget.invalidNumberMessage;
         } else if (!numberRegExp.hasMatch(value)) {
-          return 'Phone number must contain only digits';
+          return widget.invalidNumberMessage;
         } else if (!widget.disableLengthCheck) {
           return value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength
               ? null
